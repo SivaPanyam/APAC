@@ -1,0 +1,26 @@
+{
+  "bangalore": {
+    "low": {
+      "hotels": ["Zostel Bangalore", "Indiranagar PG", "Cubbon Guest House"],
+      "places": ["Cubbon Park", "Lalbagh Botanical Garden", "MG Road"],
+      "food": ["Udupi Cafe", "MTR", "Vidyarthi Bhavan"]
+    },
+    "high": {
+      "hotels": ["The Leela Palace", "ITC Gardenia", "Taj West End"],
+      "places": ["Bangalore Palace", "Bannerghatta National Park", "Phoenix Marketcity"],
+      "food": ["The Only Place", "Sunny's", "Koshy's"]
+    }
+  },
+  "delhi": {
+    "low": {
+      "hotels": ["Backpacker's Heaven", "Smyle Inn", "Hotel Bloom"],
+      "places": ["Red Fort", "India Gate", "Lotus Temple"],
+      "food": ["Paranthe Wali Gali", "Kuremal Mohan Lal Kulfi Wale", "Karim's"]
+    },
+    "high": {
+      "hotels": ["The Taj Mahal Hotel", "The Oberoi", "The Lodhi"],
+      "places": ["Qutub Minar", "Humayun's Tomb", "DLF Emporio"],
+      "food": ["Indian Accent", "Bukhara", "Dum Pukht"]
+    }
+  }
+}
