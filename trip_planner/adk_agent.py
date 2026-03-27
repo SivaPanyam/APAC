@@ -1,13 +1,12 @@
-from google import adk
 import os
 import requests
 import json
+from google.adk import agents
 
-# Internal MCP server URL
-MCP_URL = os.environ.get("MCP_URL", "http://localhost:8081/get-trip")
+# Internal MCP server URL - use 127.0.0.1 for local container communication
+MCP_URL = os.environ.get("MCP_URL", "http://127.0.0.1:8081/get-trip")
 
 # Define the Tool for the Agent
-@adk.tool
 def get_budget_trip_data(location: str, budget: str) -> str:
     """
     Fetches structured budget trip data (hotels, places, food) for a specific location and budget level.
@@ -16,17 +15,17 @@ def get_budget_trip_data(location: str, budget: str) -> str:
         budget: The budget level ('low' or 'high').
     """
     try:
-        response = requests.post(MCP_URL, json={"location": location, "budget": budget})
+        response = requests.post(MCP_URL, json={"location": location, "budget": budget}, timeout=10)
         if response.status_code == 200:
             return json.dumps(response.json())
         return f"Error: No data found for {location} with {budget} budget."
     except Exception as e:
-        return f"Connection Error: {str(e)}"
+        return f"Connection Error connecting to MCP: {str(e)}"
 
-# Define the Agent
-agent = adk.Agent(
+# Define the Agent using LlmAgent (consistent with example)
+root_agent = agents.LlmAgent(
     name="Budget Trip Planner",
-    instructions="""
+    instruction="""
     You are a helpful AI Budget Trip Planner. 
     Your goal is to help users plan a 1-day trip based on their location and budget.
     
@@ -41,5 +40,6 @@ agent = adk.Agent(
     tools=[get_budget_trip_data]
 )
 
-if __name__ == "__main__":
-    adk.run(agent)
+# Export the agent for ADK web
+# ADK web typically looks for an object named 'agent' or 'root_agent'
+agent = root_agent
