@@ -5,19 +5,23 @@ ENV PORT=8080
 
 WORKDIR /app
 
+# Install system dependencies
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Cloud Run expects the app to listen on the specified port
 EXPOSE 8080
 EXPOSE 8081
 
-# Create a start script to run both processes
-# adk web --port 8080 launches the interactive UI
+# Update start.sh to be more robust
 RUN echo '#!/bin/sh\n\
 python mcp_server.py & \n\
-adk web --port 8080 --host 0.0.0.0 adk_agent.py' > start.sh && chmod +x start.sh
+# Give MCP server a second to start\n\
+sleep 2\n\
+# Start ADK web UI on the port Cloud Run expects\n\
+exec adk web adk_agent.py --port 8080 --host 0.0.0.0' > start.sh && chmod +x start.sh
 
 CMD ["./start.sh"]
