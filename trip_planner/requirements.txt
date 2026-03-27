@@ -2,5 +2,7 @@ fastapi
 uvicorn
 google-generativeai
 google-adk
+python-dotenv
+google-auth
 requests
 pydantic
